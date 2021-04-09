@@ -1,0 +1,72 @@
+
+import java.awt.*; 
+import java.awt.event.*; 
+import javax.swing.*;
+import javax.swing.border.LineBorder;
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+/**
+ *
+ * @author Windows 8.1
+ */
+//deklarasi class
+public class SIP extends JWindow{
+    //method untuk dipanggil dalam frame
+    private Dimension dimensi=Toolkit.getDefaultToolkit().getScreenSize();//
+    private JLabel lblLogo=new JLabel(new ImageIcon("alarm.png"));//menambahkan imagekedalam program
+    private JProgressBar barisProgres = new JProgressBar();//
+    private int time=0;//
+    private Timer timer;//
+
+    //deklarasi konstruktor
+    public SIP () {
+        //menyiapkan variabel warna pada barisprogres
+        Color Warna = Color.green;
+        //mengatur baris progress
+	barisProgres.setValue(0);//merujuk pada time yaitu 0
+        barisProgres.setPreferredSize(new Dimension(100,15));
+	barisProgres.setBackground(Color.red);//mengatur warna backround menjadi merah
+	barisProgres.setForeground(Color.green);//mengatur warna foreground pada icon persen menjadi hijau
+	barisProgres.setStringPainted(true);//menampilkan
+        
+        //mengatur warna garis pinggir
+	barisProgres.setBorder(new LineBorder(Warna,2));//mengatur ketebalan garisprogres
+	lblLogo.setBorder(new LineBorder(Warna.GREEN, 2));//mengatur ketebalan garis pada logo yang dimasukkan
+        
+        //meletakkan objek ke kontainer
+	getContentPane().add(lblLogo,BorderLayout.NORTH);//mengatur agar lbllogo berada dibawah
+	getContentPane().add(barisProgres,BorderLayout.CENTER);//mengatur agar barisprogres berada ditengah
+        
+        //mengatur lama window logo tampil pada layar monitor
+        timer = new Timer(50,new ActionListener(){//mengatur kecepatan timer
+            @Override
+            public void actionPerformed(ActionEvent evt){//berfungsi untuk mengendalikan ActionEvent evt yang terjadi
+                time++;//waktu akan bertambah
+                barisProgres.setValue(time);//
+                if(barisProgres.getPercentComplete()==1.0){//jika sampai 100%
+                    timer.stop();//maka timer berhenti
+		    setVisible(false);//tidak menampilkan
+                    dispose();//mengeluarkan aplikasi
+		    //menjalankan menu utama
+		   // new Menu_Utama();  
+                } 
+            } 
+        });
+        timer.start();
+        //menempatkan objek ke memori sebelum ditampilkan 
+        pack();
+        //mengatur lokasi window tepat di tengah layar monitor
+        //menempaktkan window ke layar monitor
+        setLocationRelativeTo (null);//menempatkan agar aplikasi berada ditengah
+        setVisible(true);//menampilkan
+    }
+    //deklarasi metode utama
+    public static void main(String[] args) {
+        new SIP();//
+    }    
+}
